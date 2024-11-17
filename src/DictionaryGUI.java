@@ -28,10 +28,13 @@ public class DictionaryGUI extends JFrame {
         JButton searchButton = new JButton("Search Slang");
         searchButton.addActionListener(e -> searchSlangWord());
         inputField.addActionListener(e -> searchSlangWord());
+        JButton loadButton = new JButton("Load Slang");
+        loadButton.addActionListener(e -> showAllDefinitions());
 
         inputPanel.add(new JLabel("Enter slang word:"));
         inputPanel.add(inputField);
         inputPanel.add(searchButton);
+        inputPanel.add(loadButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
 
