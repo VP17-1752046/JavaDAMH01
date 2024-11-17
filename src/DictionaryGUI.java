@@ -34,11 +34,12 @@ public class DictionaryGUI extends JFrame {
 
         result = new JTextArea();
         result.setEditable(false);
+        result.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); 
         mainPanel.add(new JScrollPane(result), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 5, 10, 10));
         
-        JButton showAllButton = new JButton("Show All");
+        // JButton showAllButton = new JButton("Show All");
         JButton findByDefinitionButton = new JButton("Find by Definition");
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
@@ -46,10 +47,9 @@ public class DictionaryGUI extends JFrame {
         JButton showHistoryButton = new JButton("History");
         JButton randomButton = new JButton("Random Slang");
         JButton resetButton = new JButton("Reset");
-        JButton quizSlangButton = new JButton("Quiz: Slang to Definition");
-        JButton quizDefinitionButton = new JButton("Quiz: Definition to Slang");
+        JButton quizButton = new JButton("Quiz");
 
-        buttonPanel.add(showAllButton);
+        // buttonPanel.add(showAllButton);
         buttonPanel.add(findByDefinitionButton);
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
@@ -57,11 +57,20 @@ public class DictionaryGUI extends JFrame {
         buttonPanel.add(showHistoryButton);
         buttonPanel.add(randomButton);
         buttonPanel.add(resetButton);
-        buttonPanel.add(quizSlangButton);
-        buttonPanel.add(quizDefinitionButton);
+        buttonPanel.add(quizButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
+
+        showAllDefinitions();
+    }
+
+    private void showAllDefinitions() {
+        StringBuilder allDefinitions = new StringBuilder();
+        for (String slang : dictionary.getSlangMap().keySet()) {
+            allDefinitions.append(slang).append("  ---  ").append(dictionary.getSlangMap().get(slang)).append("\n");
+        }
+        result.setText(allDefinitions.toString());
     }
 }
