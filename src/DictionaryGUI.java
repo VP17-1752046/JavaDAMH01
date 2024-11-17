@@ -44,6 +44,8 @@ public class DictionaryGUI extends JFrame {
         
         // JButton showAllButton = new JButton("Show All");
         JButton findByDefinitionButton = new JButton("Find by Definition");
+        findByDefinitionButton.addActionListener(e -> findByDefinition());
+
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
@@ -82,5 +84,14 @@ public class DictionaryGUI extends JFrame {
         FindSlangWord finder = new FindSlangWord(dictionary);
         String output = finder.find(slang);
         result.setText(output != null ? "Definition: " + output : "Slang word not found!");
+    }
+
+    private void findByDefinition() {
+        String keyword = JOptionPane.showInputDialog(this, "Enter keyword to search definition:");
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            FindByDefinition finder = new FindByDefinition(dictionary);
+            List<String> output = finder.find(keyword);
+            result.setText(output.isEmpty() ? "Slang word not found!" : String.join("\n", output));
+        }
     }
 }
