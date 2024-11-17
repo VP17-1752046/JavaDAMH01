@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import utils.Dictionary;
+import functions.*;
 
 public class DictionaryGUI extends JFrame {
     private Dictionary dictionary;
@@ -25,6 +26,8 @@ public class DictionaryGUI extends JFrame {
         JPanel inputPanel = new JPanel(new FlowLayout());
         inputField = new JTextField(20);
         JButton searchButton = new JButton("Search Slang");
+        searchButton.addActionListener(e -> searchSlangWord());
+        inputField.addActionListener(e -> searchSlangWord());
 
         inputPanel.add(new JLabel("Enter slang word:"));
         inputPanel.add(inputField);
@@ -72,5 +75,12 @@ public class DictionaryGUI extends JFrame {
             allDefinitions.append(slang).append("  ---  ").append(dictionary.getSlangMap().get(slang)).append("\n");
         }
         result.setText(allDefinitions.toString());
+    }
+
+    private void searchSlangWord() {
+        String slang = inputField.getText().trim();
+        FindSlangWord finder = new FindSlangWord(dictionary);
+        String output = finder.find(slang);
+        result.setText(output != null ? "Definition: " + output : "Slang word not found!");
     }
 }
