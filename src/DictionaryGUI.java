@@ -52,7 +52,10 @@ public class DictionaryGUI extends JFrame {
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
+        
         JButton showHistoryButton = new JButton("History");
+        showHistoryButton.addActionListener(e -> showHistory());
+
         JButton randomButton = new JButton("Random Slang");
         JButton resetButton = new JButton("Reset");
         JButton quizButton = new JButton("Quiz");
@@ -96,5 +99,10 @@ public class DictionaryGUI extends JFrame {
             List<String> output = finder.find(keyword);
             result.setText(output.isEmpty() ? "Slang word not found!" : String.join("\n", output));
         }
+    }
+
+    private void showHistory() {
+        ShowHistory history = new ShowHistory(dictionary);
+        result.setText(history.show());
     }
 }

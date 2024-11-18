@@ -11,6 +11,9 @@ public class FindSlangWord {
 
     public String find(String slang) {
         String definition = dictionary.getSlangMap().get(slang);
+        if (definition != null) {
+            dictionary.getSearchHistory().add(slang);
+        }
         return definition;
     }
 }

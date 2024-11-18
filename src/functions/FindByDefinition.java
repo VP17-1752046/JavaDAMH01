@@ -21,6 +21,10 @@ public class FindByDefinition {
                 results.add(entry.getKey() + "  ---  " + entry.getValue());
             }
         }
+
+        if (!results.isEmpty()) {
+            dictionary.getSearchHistory().add(keyword); 
+        }
         
         return results;
     }

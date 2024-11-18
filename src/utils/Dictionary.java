@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Dictionary {
     private Map<String, String> slangMap = new HashMap<>();
+    private List<String> searchHistory = new ArrayList<>();
     private final String fileSlang = "slang.txt";
     
     public Dictionary() {
@@ -13,6 +14,10 @@ public class Dictionary {
 
     public Map<String, String> getSlangMap() {
         return slangMap;
+    }
+
+    public List<String> getSearchHistory() {
+        return searchHistory;
     }
 
     public void loadFile() {
