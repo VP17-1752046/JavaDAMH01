@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class Dictionary {
-    private Map<String, String> slangMap = new HashMap<>();
+    private Map<String, String> slangMap = new LinkedHashMap<>();
     private List<String> searchHistory = new ArrayList<>();
     private final String fileSlang = "slang.txt";
     

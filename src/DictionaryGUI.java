@@ -50,6 +50,8 @@ public class DictionaryGUI extends JFrame {
         findByDefinitionButton.addActionListener(e -> findByDefinition());
 
         JButton addButton = new JButton("Add");
+        addButton.addActionListener(e -> addSlangWord());
+
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
         
@@ -104,5 +106,17 @@ public class DictionaryGUI extends JFrame {
     private void showHistory() {
         ShowHistory history = new ShowHistory(dictionary);
         result.setText(history.show());
+    }
+
+    private void addSlangWord() {
+        String slang = JOptionPane.showInputDialog(this, "Enter new slang word:");
+        if (slang != null && !slang.trim().isEmpty()) {
+            String definition = JOptionPane.showInputDialog(this, "Enter definition:");
+            if (definition != null) {
+                AddSlang adder = new AddSlang(dictionary);
+                String message = adder.add(slang, definition);
+                result.setText(message);
+            }
+        }
     }
 }
