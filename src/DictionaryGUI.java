@@ -54,8 +54,9 @@ public class DictionaryGUI extends JFrame {
 
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(e -> editSlangWord());
-        
+
         JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> deleteSlangWord());
         
         JButton showHistoryButton = new JButton("History");
         showHistoryButton.addActionListener(e -> showHistory());
@@ -133,6 +134,18 @@ public class DictionaryGUI extends JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Slang word not found.");
+        }
+    }
+
+    private void deleteSlangWord() {
+        String slang = JOptionPane.showInputDialog(this, "Enter slang word to delete:");
+        if (slang != null && !slang.trim().isEmpty()) {
+            int confirm = JOptionPane.showConfirmDialog(this, "Confirm to delete this slang word?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                DeleteSlang deleter = new DeleteSlang(dictionary);
+                String message = deleter.delete(slang);
+                result.setText(message);
+            }
         }
     }
 }
