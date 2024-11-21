@@ -61,8 +61,11 @@ public class DictionaryGUI extends JFrame {
         JButton showHistoryButton = new JButton("History");
         showHistoryButton.addActionListener(e -> showHistory());
 
-        JButton randomButton = new JButton("Random Slang");
         JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(e -> resetSlang());
+
+        JButton randomButton = new JButton("Random Slang");
+        
         JButton quizButton = new JButton("Quiz");
 
         // buttonPanel.add(showAllButton);
@@ -147,5 +150,11 @@ public class DictionaryGUI extends JFrame {
                 result.setText(message);
             }
         }
+    }
+
+    private void resetSlang() {
+        ResetSlangList resetter = new ResetSlangList(dictionary);
+        resetter.reset();
+        result.setText("Dictionary has been resetted!");
     }
 }

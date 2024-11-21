@@ -12,6 +12,10 @@ public class Dictionary {
         loadFile();
     }
 
+    public String getFileSlang() {
+        return fileSlang;
+    }
+
     public Map<String, String> getSlangMap() {
         return slangMap;
     }
