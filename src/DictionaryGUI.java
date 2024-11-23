@@ -69,6 +69,7 @@ public class DictionaryGUI extends JFrame {
         randomButton.addActionListener(e -> randomSlang());
         
         JButton quizButton = new JButton("Quiz");
+        quizButton.addActionListener(e -> quizDefinition());
 
         // buttonPanel.add(showAllButton);
         buttonPanel.add(findByDefinitionButton);
@@ -209,5 +210,56 @@ public class DictionaryGUI extends JFrame {
 
         RandomDialog.add(buttonPanel, BorderLayout.CENTER);
         RandomDialog.setVisible(true);
+    }
+
+    private void quizDefinition() {
+        QuizDefinition quiz = new QuizDefinition(dictionary);
+        List<String> options = new ArrayList<>();
+        StringBuilder question = new StringBuilder();
+
+        int correctAnswer = quiz.generateQuiz(options, question);
+
+        JDialog quizDialog = new JDialog(this, "Quiz Definition", true);
+        quizDialog.setLayout(new BorderLayout());
+        quizDialog.setSize(500, 200);
+        quizDialog.setLocationRelativeTo(this);
+
+        JPanel questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel questionTitle = new JLabel("What is the slang word of this definition?");
+        questionTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        questionTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel definitionLabel = new JLabel(question.toString()); 
+        definitionLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        definitionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        questionPanel.add(questionTitle);
+        questionPanel.add(Box.createVerticalStrut(10)); 
+        questionPanel.add(definitionLabel);
+        questionPanel.add(Box.createVerticalStrut(10)); 
+
+        quizDialog.add(questionPanel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        for (int i = 0; i < options.size(); i++) {
+            String option = options.get(i);
+            JButton answerButton = new JButton(option);
+            int selectedIndex = i + 1; 
+            answerButton.addActionListener(e -> {
+                if (selectedIndex == correctAnswer) {
+                    JOptionPane.showMessageDialog(quizDialog, "Correct Answer!", "Correct", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(quizDialog, "Opps!!! Wrong answer.", "Wrong", JOptionPane.ERROR_MESSAGE);
+                }
+                quizDialog.dispose(); 
+            });
+            buttonPanel.add(answerButton);
+        }
+
+        quizDialog.add(buttonPanel, BorderLayout.CENTER);
+        quizDialog.setVisible(true);
     }
 }
