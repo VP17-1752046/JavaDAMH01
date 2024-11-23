@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import utils.Dictionary;
+import java.util.ArrayList;
 import functions.*;
 
 public class DictionaryGUI extends JFrame {
@@ -65,6 +66,7 @@ public class DictionaryGUI extends JFrame {
         resetButton.addActionListener(e -> resetSlang());
 
         JButton randomButton = new JButton("Random Slang");
+        randomButton.addActionListener(e -> randomSlang());
         
         JButton quizButton = new JButton("Quiz");
 
@@ -156,5 +158,56 @@ public class DictionaryGUI extends JFrame {
         ResetSlangList resetter = new ResetSlangList(dictionary);
         resetter.reset();
         result.setText("Dictionary has been resetted!");
+    }
+
+    private void randomSlang() {
+        RandomSlang randomSlang = new RandomSlang(dictionary);
+        List<String> options = new ArrayList<>();
+        StringBuilder question = new StringBuilder();
+
+        int correctAnswer = randomSlang.generateQuestion(options, question);
+
+        JDialog RandomDialog = new JDialog(this, "Random Slang", true);
+        RandomDialog.setLayout(new BorderLayout());
+        RandomDialog.setSize(500, 200);
+        RandomDialog.setLocationRelativeTo(this);
+
+        JPanel questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel questionTitle = new JLabel("What is the definition of the slang word?");
+        questionTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        questionTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel slangWord = new JLabel(question.toString());
+        slangWord.setFont(new Font("Arial", Font.BOLD, 18));
+        slangWord.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        questionPanel.add(questionTitle);
+        questionPanel.add(Box.createVerticalStrut(10)); 
+        questionPanel.add(slangWord);
+        questionPanel.add(Box.createVerticalStrut(10)); 
+
+        RandomDialog.add(questionPanel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        for (int i = 0; i < options.size(); i++) {
+            String option = options.get(i);
+            JButton answerButton = new JButton(option);
+            int selectedIndex = i + 1; 
+            answerButton.addActionListener(e -> {
+                if (selectedIndex == correctAnswer) {
+                    JOptionPane.showMessageDialog(RandomDialog, "Correct Answer!", "Correct", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(RandomDialog, "Opps!!! Wrong answer.", "Wrong", JOptionPane.ERROR_MESSAGE);
+                }
+                RandomDialog.dispose(); 
+            });
+            buttonPanel.add(answerButton);
+        }
+
+        RandomDialog.add(buttonPanel, BorderLayout.CENTER);
+        RandomDialog.setVisible(true);
     }
 }
