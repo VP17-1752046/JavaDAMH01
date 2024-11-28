@@ -1,10 +1,8 @@
 package functions;
 
 import utils.Dictionary;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomSlang {
@@ -14,29 +12,9 @@ public class RandomSlang {
         this.dictionary = dictionary;
     }
 
-    public int generateQuestion(List<String> options, StringBuilder question) {
-        Map<String, String> slangMap = dictionary.getSlangMap();
-        List<String> keys = new ArrayList<>(slangMap.keySet());
-        Random random = new Random();
-
-        String correctSlang = keys.get(random.nextInt(keys.size()));
-        String correctDefinition = slangMap.get(correctSlang);
-
-        options.add(correctDefinition); 
-
-        while (options.size() < 4) {
-            String randomDefinition = slangMap.get(keys.get(random.nextInt(keys.size())));
-            if (!options.contains(randomDefinition)) {
-                options.add(randomDefinition);
-            }
-        }
-
-        Collections.shuffle(options);
-
-        int correctIndex = options.indexOf(correctDefinition);
-
-        question.append("").append(correctSlang);
-
-        return correctIndex + 1; 
+    public String getRandom() {
+        List<String> keys = new ArrayList<>(dictionary.getSlangMap().keySet());
+        String randomSlang = keys.get(new Random().nextInt(keys.size()));
+        return randomSlang + "  ---  " + dictionary.getSlangMap().get(randomSlang);
     }
 }

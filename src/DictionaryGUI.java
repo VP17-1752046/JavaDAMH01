@@ -31,11 +31,14 @@ public class DictionaryGUI extends JFrame {
         inputField.addActionListener(e -> searchSlangWord());
         JButton loadButton = new JButton("Load Slang");
         loadButton.addActionListener(e -> showAllDefinitions());
+        JButton randomButton = new JButton("Random Slang");
+        randomButton.addActionListener(e -> randomSlang());
 
         inputPanel.add(new JLabel("Enter slang word:"));
         inputPanel.add(inputField);
         inputPanel.add(searchButton);
         inputPanel.add(loadButton);
+        inputPanel.add(randomButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
 
@@ -46,7 +49,6 @@ public class DictionaryGUI extends JFrame {
 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 5, 10, 10));
         
-        // JButton showAllButton = new JButton("Show All");
         JButton findByDefinitionButton = new JButton("Find by Definition");
         findByDefinitionButton.addActionListener(e -> findByDefinition());
 
@@ -65,21 +67,20 @@ public class DictionaryGUI extends JFrame {
         JButton resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> resetSlang());
 
-        JButton randomButton = new JButton("Random Slang");
-        randomButton.addActionListener(e -> randomSlang());
+        JButton quizSlangButton = new JButton("Quiz Slang");
+        quizSlangButton.addActionListener(e -> quizSlang());
         
-        JButton quizButton = new JButton("Quiz");
-        quizButton.addActionListener(e -> quizDefinition());
+        JButton quizDefButton = new JButton("Quiz Definition");
+        quizDefButton.addActionListener(e -> quizDefinition());
 
-        // buttonPanel.add(showAllButton);
         buttonPanel.add(findByDefinitionButton);
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(showHistoryButton);
-        buttonPanel.add(randomButton);
         buttonPanel.add(resetButton);
-        buttonPanel.add(quizButton);
+        buttonPanel.add(quizSlangButton);
+        buttonPanel.add(quizDefButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -162,16 +163,21 @@ public class DictionaryGUI extends JFrame {
     }
 
     private void randomSlang() {
-        RandomSlang randomSlang = new RandomSlang(dictionary);
+        RandomSlang random = new RandomSlang(dictionary);
+        result.setText("On this day slang word:\n\n" + random.getRandom());
+    }
+
+    private void quizSlang() {
+        QuizSlang quiz = new QuizSlang(dictionary);
         List<String> options = new ArrayList<>();
         StringBuilder question = new StringBuilder();
 
-        int correctAnswer = randomSlang.generateQuestion(options, question);
+        int correctAnswer = quiz.generateQuestion(options, question);
 
-        JDialog RandomDialog = new JDialog(this, "Random Slang", true);
-        RandomDialog.setLayout(new BorderLayout());
-        RandomDialog.setSize(500, 200);
-        RandomDialog.setLocationRelativeTo(this);
+        JDialog QuizDialog = new JDialog(this, "Quiz Slang", true);
+        QuizDialog.setLayout(new BorderLayout());
+        QuizDialog.setSize(500, 200);
+        QuizDialog.setLocationRelativeTo(this);
 
         JPanel questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
@@ -190,7 +196,7 @@ public class DictionaryGUI extends JFrame {
         questionPanel.add(slangWord);
         questionPanel.add(Box.createVerticalStrut(10)); 
 
-        RandomDialog.add(questionPanel, BorderLayout.NORTH);
+        QuizDialog.add(questionPanel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         for (int i = 0; i < options.size(); i++) {
@@ -199,17 +205,17 @@ public class DictionaryGUI extends JFrame {
             int selectedIndex = i + 1; 
             answerButton.addActionListener(e -> {
                 if (selectedIndex == correctAnswer) {
-                    JOptionPane.showMessageDialog(RandomDialog, "Correct Answer!", "Correct", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(QuizDialog, "Correct Answer!", "Correct", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(RandomDialog, "Opps!!! Wrong answer.", "Wrong", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(QuizDialog, "Opps!!! Wrong answer.", "Wrong", JOptionPane.ERROR_MESSAGE);
                 }
-                RandomDialog.dispose(); 
+                QuizDialog.dispose(); 
             });
             buttonPanel.add(answerButton);
         }
 
-        RandomDialog.add(buttonPanel, BorderLayout.CENTER);
-        RandomDialog.setVisible(true);
+        QuizDialog.add(buttonPanel, BorderLayout.CENTER);
+        QuizDialog.setVisible(true);
     }
 
     private void quizDefinition() {
